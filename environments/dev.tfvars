@@ -1,0 +1,7 @@
+rgname = "dev-rg-uks"
+location = "UK south"
+adfname = "dev-adf0903"
+databricks = "dev-databricks0903"
+storage = "dev-storage-0903"
+appservice = "dev-appservice-0903"
+logicapp = "dev-logicapp-0903"
