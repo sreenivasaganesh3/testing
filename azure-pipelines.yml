@@ -10,10 +10,106 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: Test stage
+- stage: Teststage
   displayName: "Teststage"
   jobs:
-  - job: Build
-    pool:
-      name: Default
+  - job: setup
     steps:
+    - task: TerraformInstaller@2
+      displayName: "terraform installer"
+      inputs:
+        terraformVersion: 'latest'
+    - task: TerraformTaskV4@4
+      displayName: "testinit"
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'Free Trial(1)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
+        backendAzureRmResourceGroupName: 'rsg-test-uks'
+        backendAzureRmStorageAccountName: 'storestatefile0903'
+        backendAzureRmContainerName: 'statefilecontainer'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTaskV4@4
+      displayName: "testplan"
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        commandOptions: '-var-file test.tfvars'
+        environmentServiceNameAzureRM: 'Free Trial(3)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
+
+    - task: TerraformTaskV4@4
+      displayName: "testapply"
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        commandOptions: '-var-file test.tfvars  -auto-approve'
+        environmentServiceNameAzureRM: 'Free Trial(4)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
+        
+
+- stage: Devlopementstage
+  displayName: "Developmentstage"
+  jobs:
+  - job: setup
+    steps:
+    
+    - task: TerraformTaskV4@4
+      displayName: "devinit"
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'Free Trial(1)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
+        backendAzureRmResourceGroupName: 'rsg-test-uks'
+        backendAzureRmStorageAccountName: 'storestatefile0903'
+        backendAzureRmContainerName: 'statefilecontainer'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTaskV4@4
+      displayName: "devplan"
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        commandOptions: '-var-file dev.tfvars'
+        environmentServiceNameAzureRM: 'Free Trial(3)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
+
+    - task: TerraformTaskV4@4
+      displayName: "devapply"
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        commandOptions: '-var-file dev.tfvars  -auto-approve'
+        environmentServiceNameAzureRM: 'Free Trial(4)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
+
+        
+- stage: Stagestage
+  displayName: "stagestage"
+  jobs:
+  - job: setup
+    steps:
+    
+    - task: TerraformTaskV4@4
+      displayName: "stageinit"
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'Free Trial(1)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
+        backendAzureRmResourceGroupName: 'rsg-test-uks'
+        backendAzureRmStorageAccountName: 'storestatefile0903'
+        backendAzureRmContainerName: 'statefilecontainer'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTaskV4@4
+      displayName: "stageplan"
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        commandOptions: '-var-file stage.tfvars'
+        environmentServiceNameAzureRM: 'Free Trial(3)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
+
+    - task: TerraformTaskV4@4
+      displayName: "stageapply"
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        commandOptions: '-var-file stage.tfvars  -auto-approve'
+        environmentServiceNameAzureRM: 'Free Trial(4)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
