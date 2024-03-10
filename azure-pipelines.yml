@@ -15,8 +15,8 @@ stages:
   jobs:
   - job: setup
     steps:
-    - task: TerraformInstaller@2
-      displayName: "terraform installer"
+
+    - task: TerraformInstaller@1
       inputs:
         terraformVersion: 'latest'
     - task: TerraformTaskV4@4
@@ -61,7 +61,7 @@ stages:
         backendServiceArm: 'Free Trial(1)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
         backendAzureRmResourceGroupName: 'rsg-test-uks'
         backendAzureRmStorageAccountName: 'storestatefile0903'
-        backendAzureRmContainerName: 'statefilecontainer'
+        backendAzureRmContainerName: 'devstatefilecontainer'
         backendAzureRmKey: 'terraform.tfstate'
 
     - task: TerraformTaskV4@4
@@ -95,7 +95,7 @@ stages:
         backendServiceArm: 'Free Trial(1)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
         backendAzureRmResourceGroupName: 'rsg-test-uks'
         backendAzureRmStorageAccountName: 'storestatefile0903'
-        backendAzureRmContainerName: 'statefilecontainer'
+        backendAzureRmContainerName: 'stagestafilecontainer'
         backendAzureRmKey: 'terraform.tfstate'
 
     - task: TerraformTaskV4@4
