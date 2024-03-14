@@ -35,7 +35,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'plan'
-        commandOptions: '-var-file /environments/test.tfvars'
+        commandOptions: '-var-file environments/test.tfvars'
         environmentServiceNameAzureRM: 'Free Trial(3)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
 
     - task: TerraformTaskV4@4
@@ -43,7 +43,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        commandOptions: '-var-file /environments/test.tfvars  -auto-approve'
+        commandOptions: '-var-file environments/test.tfvars  -auto-approve'
         environmentServiceNameAzureRM: 'Free Trial(4)(1f0abf3b-e9bd-4700-b1ae-9bf1a029f1a4)'
         
 
